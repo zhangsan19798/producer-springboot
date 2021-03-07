@@ -52,11 +52,16 @@ public class Producer_PubSub {
          *   1.queue:队列名称
          *   2.exchange:交换机名称
          *   3.routingKey:路由键,绑定规则
-         *      如果交换机
+         *      如果交换机的类型为fanout，routingkey设置为""
          */
 
-        channel.queueBind()
+        channel.queueBind(queue1Name,exchangeName,"");
+        channel.queueBind(queue2Name,exchangeName,"");
+        String body="日志信息:张三调用了findAll方法...日志级别: info...";
         //8.发送消息
+        channel.basicPublish(exchangeName,"",null,body.getBytes());
         //9.释放资源
+        channel.close();
+        connection.close();
     }
 }
